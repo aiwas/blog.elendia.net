@@ -56,3 +56,4 @@ To reload all dependencies, run `deno cache _config.ts`
 
 - [Deno製タスクランナーVelociraptorの使い方と設定の紹介](https://zenn.dev/kawarimidoll/articles/b6570176eaaaea)
 - [Denoで環境変数を扱うときはenvとVelociraptorの組み合わせが最適かも](https://zenn.dev/kawarimidoll/articles/3c44309fce182d)
+- [GitHub Actionsで機密情報を扱う方法 #GitHub - Qiita](https://qiita.com/ak2ie/items/4fbcdf74e7760c49c1af)
