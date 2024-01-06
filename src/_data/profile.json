@@ -1,0 +1,30 @@
+{
+  "author": {
+    "name": "Miyako Kuwano",
+    "email": "aiwas@arg.vc"
+  },
+  "account": {
+    "github": "aiwas",
+    "mastodon": [
+      {
+        "server": "yysk.icu",
+        "username": "aiwas",
+        "tag": "main"
+      },
+      {
+        "server": "mstdn.maud.io",
+        "username": "aiwas",
+        "tag": "sub"
+      }
+    ],
+    "steam": "aiwas",
+    "origin": "aiwas109",
+    "epic": "aiwas109",
+    "nintendo_switch": "SW-2667-8954-5872",
+    "playstation_network": "aiwas109",
+    "chunithm": "4008760428285",
+    "genshin": "804254598",
+    "theater_days": "LQVS78GS",
+    "blue_archive": "AKZEBPLW"
+  }
+}

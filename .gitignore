@@ -1,0 +1,8 @@
+src/pages/*
+!src/pages/_data.json
+src/posts/*
+!src/posts/_data.json
+_site/
+
+.env*
+.vercel

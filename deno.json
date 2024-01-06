@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "npm:react",
+    "types": [
+      "lume/types.ts",
+      "https://esm.sh/@types/react@18.2.0/index.d.ts"
+    ]
+  },
+  "tasks": {
+    "lume": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A -"
+  },
+  "imports": {
+    "std/": "https://deno.land/std@0.211.0/",
+    "lume/": "https://deno.land/x/lume@v2.0.2/"
+  },
+  "lint": {
+    "exclude": [
+      "src/posts/**/*.md",
+      "_site/"
+    ]
+  },
+  "fmt": {
+    "exclude": [
+      "src/posts/**/*.md",
+      "_site/"
+    ]
+  }
+}

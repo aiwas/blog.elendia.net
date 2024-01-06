@@ -1,0 +1,24 @@
+---
+layout: layouts/base.vto
+updatedAt:
+---
+<main id="Post">
+  <section>
+    <h1>{{ title }}</h1>
+    {{ components.date({ date: date }) }}
+    {{# <span>（最終更新：{{ updatedAt }}）</span> #}}
+    <ul class="fe-tags">
+    {{ for tag of tags }}
+      <li><a href="/tags/{{ tag }}/">{{ tag }}</a></li>
+    {{ /for }}
+    </ul>
+  </section>
+  <hr />
+  <article class="markdown">{{ content }}</article>
+  <hr />
+  <nav class="nav">
+    <div clas="nav-left">
+      <a href="/">Back</a>
+    </div>
+  </nav>
+</main>

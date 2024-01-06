@@ -1,0 +1,28 @@
+.markdown {
+  // fix
+  blockquote > p {
+    margin-bottom: 0;
+  }
+
+  // markdown-it-block-embed
+  .block-embed.block-embed-service-youtube > iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  // markdown-it-container
+  .warning {
+    & > p {
+      margin: 0;
+      &::before {
+        content: "\26a0";
+        margin-right: 0.25rem;
+      }
+    }
+    border-left: 0.5rem solid #d48739;
+    border-radius: 0.25rem;
+    background-color: #f0d4b7;
+    padding: 1rem;
+  }
+}

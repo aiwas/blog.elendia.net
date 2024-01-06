@@ -1,0 +1,36 @@
+import type { Helper, HelperOptions } from "lume/core/renderer.ts";
+
+const LEADING_SPACES = /^\n|\s+$|^ {4}/gm;
+
+const mastodonCustomTag = {
+  name: "toot",
+  fn: (tootUrl: string) => {
+    const url = new URL(tootUrl);
+    return /*html*/ `
+      <iframe src="${url.href}/embed" class="mastodon-embed" style="max-width: 100%; border: 0" width="400" allowfullscreen="allowfullscreen"></iframe>
+      <script src="https://${url.host}/embed.js" async="async"></script>
+    `.replace(LEADING_SPACES, "");
+  },
+  options: { type: "tag" },
+};
+
+const youtubeCustomTag = {
+  name: "youtube",
+  fn: (videoId: string) => {
+    return /*html*/ `
+      <div class="youtube-embed">
+        <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0"allowfullscreen></iframe>
+      </div>
+    `.replace(LEADING_SPACES, "");
+  },
+  options: { type: "tag" },
+};
+
+export default [
+  mastodonCustomTag,
+  youtubeCustomTag,
+] as {
+  name: string;
+  fn: Helper;
+  options: HelperOptions;
+}[];
