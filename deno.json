@@ -8,7 +8,13 @@
     ]
   },
   "tasks": {
-    "lume": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A -"
+    "lume": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A -",
+    "build": "deno task lume",
+    "serve": "deno task lume --serve",
+    "lume:dev": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A --env=.env.development -",
+    "build:dev": "deno task lume:dev",
+    "serve:dev": "deno task lume:dev --serve",
+    "new": "deno task lume new new-post"
   },
   "imports": {
     "std/": "https://deno.land/std@0.211.0/",
