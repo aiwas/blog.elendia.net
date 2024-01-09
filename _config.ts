@@ -42,7 +42,7 @@ site.use(prism({ extensions: [".html", ".md"] }));
 // }));
 
 // helper
-helpers.forEach(({ name, fn, options }) => site.helper(name, fn, options));
+helpers.forEach(h => site.helper(...h));
 
 // microCMS
 if (Deno.env.get("MICROCMS_ENABLE") !== "true") {
