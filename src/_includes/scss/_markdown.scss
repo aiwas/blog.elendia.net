@@ -1,4 +1,12 @@
 .markdown {
+  p {
+    line-height: 2;
+    text-align: justify;
+    &::first-letter {
+      padding-left: 1rem;
+    }
+  }
+
   // fix
   blockquote > p {
     margin-bottom: 0;
