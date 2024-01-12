@@ -35,6 +35,7 @@ export default async function* () {
 
   for (const content of data.contents as Blog[]) {
     yield {
+      date: content.publishedAt,
       layout: "layouts/post.vto",
       type: "post",
       url: `/posts/${content.slug}/`,
