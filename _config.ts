@@ -52,4 +52,14 @@ if (Deno.env.get("MICROCMS_ENABLE") !== "true") {
 // 静的ファイルをコピー
 site.copy([".jpg", ".png"]);
 
+// 外部リンクに target="_blank" を設定
+site.process([".html"], (pages) => {
+  for (const page of pages) {
+    const externalLinks = page.document?.querySelectorAll('a[href^="http"]');
+    externalLinks?.forEach((link) => {
+      link.setAttribute("target", "_blank");
+    });
+  }
+});
+
 export default site;
