@@ -1,4 +1,4 @@
-import type { MicroCMSContentId, MicroCMSDate } from "https://esm.sh/microcms-js-sdk@2.7.0";
+import type { MicroCMSContentId, MicroCMSDate } from "microcms";
 
 interface BlogArticle {
   title: string;
@@ -19,6 +19,11 @@ type Blog = MicroCMSContentId & MicroCMSDate & BlogArticle;
 // 他のページよりも前に生成する
 export const renderOrder = -1;
 
+/**
+ * MicroCMS記事ページ生成
+ * - Layout: post.vto
+ * - URL: /posts/[slug]
+ */
 export default async function* () {
   const endpoint = "blog-article";
   const microcmsUrl = `https://${Deno.env.get("MICROCMS_SERVICE_DOMAIN")}.microcms.io/api/v1/${endpoint}`;

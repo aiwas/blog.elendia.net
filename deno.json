@@ -18,7 +18,8 @@
   },
   "imports": {
     "std/": "https://deno.land/std@0.211.0/",
-    "lume/": "https://deno.land/x/lume@v2.0.2/"
+    "lume/": "https://deno.land/x/lume@v2.0.2/",
+    "microcms": "https://esm.sh/microcms-js-sdk@2.7.0"
   },
   "lint": {
     "exclude": [

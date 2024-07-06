@@ -1,10 +1,13 @@
-//
-// /tags/
-//
 
 export const layout = "layouts/base.vto";
 export const title = "タグ一覧";
 
+/**
+ * タグ一覧ページ
+ * - Layout: base.vto
+ * - URL: /tags
+ * @param {Lume.Data} 検索ヘルパー
+ */
 export default ({ search }: Lume.Data) => {
   const tagList: string[] = search.values("tags");
   return (
