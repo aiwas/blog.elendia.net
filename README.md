@@ -2,24 +2,10 @@
 
 aiwas' weblog powered by [Lume](https://github.com/lumeland/lume)
 
-## NOTE
-
-### When some cache is missing
-
-To reload all dependencies, run `deno cache _config.ts`
-
-### Using environmental variables
-
-- in development: use [Velociraptor](https://velociraptor.run/docs/environment-variables/).
-  - `vr dev` : `lume --serve` does not read environmental variables.
-- in production (Deno Deploy, Vercel and others): use Environmental Variables Settings of each platform.
-
 ## Technologies
 
 - [Deno](https://deno.com)
 - [Lume](https://lume.land/)
-- [Velociraptor](https://velociraptor.run/)
-  - script runner for Deno like `npm run`
 - [jenil/chota](https://github.com/jenil/chota)
 
 ### Dependencies
@@ -36,7 +22,16 @@ To reload all dependencies, run `deno cache _config.ts`
 - markdown-it-attr (by default)
 - markdown-it-deflist (by default)
 
----
+## NOTE
+
+### When some cache is missing:
+
+To reload all dependencies, run `deno cache _config.ts`
+
+### Using environmental variables:
+
+- in development: Read from `.env.production`.
+- in production (Deno Deploy, Vercel and others): Use Environmental Variables Settings of each platform.
 
 ## Deployment
 
@@ -48,12 +43,4 @@ To reload all dependencies, run `deno cache _config.ts`
 ### microCMS -> Github Actions -> Vercel
 
 - Maybe better than above?
-  - If using Headless CMS (i.e. not storing article data in git repo), there is no need to use GitHub Actions.
-
----
-
-## References
-
-- [Deno製タスクランナーVelociraptorの使い方と設定の紹介](https://zenn.dev/kawarimidoll/articles/b6570176eaaaea)
-- [Denoで環境変数を扱うときはenvとVelociraptorの組み合わせが最適かも](https://zenn.dev/kawarimidoll/articles/3c44309fce182d)
-- [GitHub Actionsで機密情報を扱う方法 #GitHub - Qiita](https://qiita.com/ak2ie/items/4fbcdf74e7760c49c1af)
+  - If using headless CMS (i.e. not storing article data in git repo), there is no need to use GitHub Actions.

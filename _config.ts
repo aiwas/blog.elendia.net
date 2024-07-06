@@ -20,6 +20,8 @@ import "npm:prismjs@1.29.0/components/prism-shell-session.js";
 import markdown from "./_markdown.ts";
 import helpers from "./_helper.ts";
 
+Deno.env.set("TZ", "Asia/Tokyo");
+
 const site = lume({
   src: "./src",
   dest: "./_site",
@@ -42,7 +44,7 @@ site.use(prism({ extensions: [".html", ".md"] }));
 // }));
 
 // helper
-helpers.forEach(h => site.helper(...h));
+helpers.forEach((h) => site.helper(...h));
 
 // microCMS
 if (Deno.env.get("MICROCMS_ENABLE") !== "true") {

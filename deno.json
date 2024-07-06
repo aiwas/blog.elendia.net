@@ -8,10 +8,10 @@
     ]
   },
   "tasks": {
-    "lume": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A -",
+    "lume": "echo \"import 'lume/cli.ts'\" | deno run -A -",
     "build": "deno task lume",
     "serve": "deno task lume --serve",
-    "lume:dev": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A --env=.env.development -",
+    "lume:dev": "echo \"import 'lume/cli.ts'\" | deno run -A --env=.env.development -",
     "build:dev": "deno task lume:dev",
     "serve:dev": "deno task lume:dev --serve",
     "new": "deno task lume new new-post"
@@ -27,6 +27,7 @@
     ]
   },
   "fmt": {
+    "lineWidth": 120,
     "exclude": [
       "src/posts/**/*.md",
       "_site/"

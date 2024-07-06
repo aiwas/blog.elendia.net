@@ -1,0 +1,12 @@
+---
+css: |
+  .mastodon-embed {
+    width: 400px;
+    max-width: 100%;
+    border: 0px;
+    overflow: hidden;
+  }
+---
+{{> const origin = new URL(url).origin }}
+<iframe src="{{ url }}/embed" class="mastodon-embed" allowfullscreen></iframe>
+<script src="{{ origin }}/embed.js" async></script>

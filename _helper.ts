@@ -9,7 +9,7 @@ const mastodonCustomTag: AddHelperParameters = [
   (tootUrl: string) => {
     const url = new URL(tootUrl);
     return /*html*/ `
-      <iframe src="${url.href}/embed" class="mastodon-embed" style="max-width: 100%; border: 0" width="400" allowfullscreen=></iframe>
+      <iframe src="${url.href}/embed" class="mastodon-embed" style="max-width: 100%; border: 0" width="400" allowfullscreen></iframe>
       <script src="https://${url.host}/embed.js" async></script>
     `.replace(LEADING_SPACES, "");
   },

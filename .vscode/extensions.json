@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "denoland.vscode-deno",
+    "tobermory.es6-string-html",
+    "sibiraj-s.vscode-scss-formatter",
+    "bradlc.vscode-tailwindcss",
+    "oscarotero.vento-syntax",
+  ]
+}

@@ -1,5 +1,8 @@
 {
   "editor.tabSize": 2,
+  "emmet.includeLanguages": {
+    "html": "vento"
+  },
   "deno.enable": true,
   "deno.lint": true,
   "deno.unstable": true,
