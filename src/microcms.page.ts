@@ -1,4 +1,4 @@
-import type { MicroCMSContentId, MicroCMSDate } from "microcms";
+import { createClient, type MicroCMSContentId, type MicroCMSDate } from "microcms";
 
 interface BlogArticle {
   title: string;
@@ -25,20 +25,30 @@ export const renderOrder = -1;
  * - URL: /posts/[slug]
  */
 export default async function* () {
-  const endpoint = "blog-article";
-  const microcmsUrl = `https://${Deno.env.get("MICROCMS_SERVICE_DOMAIN")}.microcms.io/api/v1/${endpoint}`;
-  console.log(`${microcmsUrl} からデータを取得します。`);
-  const data = await fetch(
-    microcmsUrl,
-    {
-      method: "GET",
-      headers: { "X-MICROCMS-API-KEY": Deno.env.get("MICROCMS_API_KEY")! },
-    },
-  )
-    .then((response) => response.json())
-    .catch((reason) => console.error(reason));
+  const microcmsClient = createClient({
+    serviceDomain: Deno.env.get("MICROCMS_SERVICE_DOMAIN")!,
+    apiKey: Deno.env.get("MICROCMS_API_KEY")!,
+    customFetch: fetch,
+  });
+  const data = await microcmsClient.getAllContents<Blog>({
+    endpoint: "blog-article",
+  });
 
-  for (const content of data.contents as Blog[]) {
+  // const endpoint = "blog-article";
+  // const microcmsUrl = `https://${Deno.env.get("MICROCMS_SERVICE_DOMAIN")}.microcms.io/api/v1/${endpoint}`;
+  // console.log(`${microcmsUrl} からデータを取得します。`);
+  // const data = await fetch(
+  //   microcmsUrl,
+  //   {
+  //     method: "GET",
+  //     headers: { "X-MICROCMS-API-KEY": Deno.env.get("MICROCMS_API_KEY")! },
+  //   },
+  // )
+  //   .then((response) => response.json())
+  //   .catch((reason) => console.error(reason));
+
+  // for (const content of data.contents as Blog[]) {
+  for (const content of data) {
     yield {
       date: content.publishedAt,
       layout: "layouts/post.vto",
