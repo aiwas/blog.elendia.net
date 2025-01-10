@@ -1,10 +1,10 @@
 .markdown {
-  p {
+  > p {
     line-height: 2;
     text-align: justify;
-    &::first-letter {
-      padding-left: 1rem;
-    }
+    // &::first-letter {
+    //   padding-left: 1rem;
+    // }
   }
 
   // fix
