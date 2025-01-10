@@ -12,6 +12,7 @@ import "npm:prismjs@1.29.0/components/prism-csharp.js";
 import "npm:prismjs@1.29.0/components/prism-typescript.js";
 import "npm:prismjs@1.29.0/components/prism-bash.js";
 import "npm:prismjs@1.29.0/components/prism-shell-session.js";
+import "npm:prismjs@1.29.0/components/prism-powershell.js";
 
 // import tailwindcss from "lume/plugins/tailwindcss.ts";
 // import postcss from "lume/plugins/postcss.ts";
