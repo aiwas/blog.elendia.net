@@ -1,6 +1,6 @@
 import type Site from "lume/core/site.ts";
 
-type AddHelperParameters = Parameters<typeof Site.prototype.helper>
+type AddHelperParameters = Parameters<typeof Site.prototype.helper>;
 
 const LEADING_SPACES = /^\n|\s+$|^ {4}/gm;
 
@@ -13,7 +13,7 @@ const mastodonCustomTag: AddHelperParameters = [
       <script src="https://${url.host}/embed.js" async></script>
     `.replace(LEADING_SPACES, "");
   },
-  { type: "tag" }
+  { type: "tag" },
 ];
 
 const youtubeCustomTag: AddHelperParameters = [

@@ -1,9 +1,9 @@
-import Server from "lume/core/server.ts";
+import Server, { type Options } from "lume/core/server.ts";
 
 const server = new Server({
-  port: 8000,
   root: `${Deno.cwd()}/_site`,
-});
+  port: 8000,
+} as Options);
 
 server.start();
 

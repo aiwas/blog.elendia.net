@@ -1,4 +1,3 @@
-
 export const layout = "layouts/base.vto";
 export const title = "タグ一覧";
 

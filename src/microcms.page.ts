@@ -34,20 +34,6 @@ export default async function* () {
     endpoint: "blog-article",
   });
 
-  // const endpoint = "blog-article";
-  // const microcmsUrl = `https://${Deno.env.get("MICROCMS_SERVICE_DOMAIN")}.microcms.io/api/v1/${endpoint}`;
-  // console.log(`${microcmsUrl} からデータを取得します。`);
-  // const data = await fetch(
-  //   microcmsUrl,
-  //   {
-  //     method: "GET",
-  //     headers: { "X-MICROCMS-API-KEY": Deno.env.get("MICROCMS_API_KEY")! },
-  //   },
-  // )
-  //   .then((response) => response.json())
-  //   .catch((reason) => console.error(reason));
-
-  // for (const content of data.contents as Blog[]) {
   for (const content of data) {
     yield {
       date: content.publishedAt,
