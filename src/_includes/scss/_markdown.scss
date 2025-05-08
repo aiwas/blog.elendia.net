@@ -2,6 +2,7 @@
   > p {
     line-height: 2;
     text-align: justify;
+    word-break: auto-phrase;
     // &::first-letter {
     //   padding-left: 1rem;
     // }
@@ -10,6 +11,7 @@
   // fix
   blockquote > p {
     margin-bottom: 0;
+    word-break: break-all;
   }
 
   // markdown-it-block-embed
