@@ -17,17 +17,21 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
 
-      - name: Setup Deno environment
-        uses: denoland/setup-deno@v1
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.x
+          deno-version: v2.x
 
       - name: Build site
-        run: deno task lume
+        run: deno task build
+        env:
+          MICROCMS_ENABLE: ${{ vars.MICROCMS_ENABLE }}
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+          MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
 
       - name: Deploy to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "lucky-rabbit-27"
+          project: blog-elendia-net
           import-map: "./deno.json"
           entrypoint: serve.ts
