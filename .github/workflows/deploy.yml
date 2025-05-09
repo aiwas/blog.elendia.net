@@ -24,6 +24,10 @@ jobs:
 
       - name: Build site
         run: deno task build
+        env:
+          MICROCMS_ENABLE: ${{ vars.MICROCMS_ENABLE }}
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+          MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
 
       - name: Deploy to Deno Deploy
         uses: denoland/deployctl@v1
