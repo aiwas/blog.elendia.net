@@ -17,17 +17,17 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4
 
-      - name: Setup Deno environment
-        uses: denoland/setup-deno@v1
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
         with:
-          deno-version: v1.x
+          deno-version: v2.x
 
       - name: Build site
-        run: deno task lume
+        run: deno task build
 
       - name: Deploy to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "lucky-rabbit-27"
+          project: blog-elendia-net
           import-map: "./deno.json"
           entrypoint: serve.ts
