@@ -1,7 +1,11 @@
 globalThis.fetch = async (input) => {
   const url = new URL(typeof input === "string" || input instanceof URL ? input : input.url);
-  if (url.hostname !== "migration-test.microcms.io") throw new Error(`Unexpected fetch: ${url.hostname}`);
-  if (process.env.MOCK_CMS_FAILURE === "true") return new Response("Unauthorized", { status: 401 });
+  if (url.hostname !== "migration-test.microcms.io") {
+    throw new Error(`Unexpected fetch: ${url.hostname}`);
+  }
+  if (process.env.MOCK_CMS_FAILURE === "true") {
+    return new Response("Unauthorized", { status: 401 });
+  }
   return Response.json({
     contents: [
       {

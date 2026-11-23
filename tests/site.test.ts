@@ -102,8 +102,9 @@ public class Example {}
     /youtube.com\/embed\/video-id/,
     /<script src="https:\/\/gist.github.com\/example\/components.git-legacy.js"><\/script>/,
     /target="_blank"/,
-  ])
+  ]) {
     assert.match(post, pattern);
+  }
   assert.doesNotMatch(post, /\[object Promise\]/);
   await access(join(root, "_site/posts/post-11/assets/figure.svg"));
   await assert.rejects(access(join(root, "_site/posts/draft")));
@@ -180,7 +181,9 @@ test("開発サーバーから記事と画像を取得でき、終了時に子�
   );
   const stopped = once(child, "exit");
   t.after(async () => {
-    if (child.exitCode === null && child.signalCode === null) child.kill("SIGTERM");
+    if (child.exitCode === null && child.signalCode === null) {
+      child.kill("SIGTERM");
+    }
     await stopped;
   });
   let output = "";
@@ -195,7 +198,9 @@ test("開発サーバーから記事と画像を取得でき、終了時に子�
   for (let attempt = 0; attempt < 100; attempt++) {
     try {
       html = await (await fetch(`${base}/posts/server-post/`, { signal: AbortSignal.timeout(500) })).text();
-      if (html.includes("記事 server-post")) break;
+      if (html.includes("記事 server-post")) {
+        break;
+      }
     } catch {
       // サーバーの初回ビルドを待つ。
     }

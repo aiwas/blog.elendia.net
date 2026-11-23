@@ -87,6 +87,7 @@
 - Sass の入口は `site.add("style.scss")` で明示し、コンポーネント CSS は `/components.css` に出力。
 - 日付の表示は `Asia/Tokyo`。公開日時と Git の取得日時を混同しない。
 - 書式は Oxfmt、静的解析は Oxlint。2 スペース、ダブルクォート、セミコロン付き、行幅 120。
+- `curly: ["error", "all"]` により、`if` / `else` / ループの本体は1文でも必ず `{}` で囲む。
 - `.vto` と記事 Markdown は Oxfmt 対象外。Vento の既存書式は手作業で維持する。
 - 未確定の運用事項はユーザーに確認する。現在の計画と進捗は `docs/` と README に記録する。
 

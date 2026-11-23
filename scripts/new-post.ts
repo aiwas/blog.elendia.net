@@ -5,8 +5,12 @@ import { isSlug } from "../lib/content.ts";
 
 try {
   const [slug, title] = process.argv.slice(2);
-  if (!process.env.CONTENT_DIR) throw new Error("記事を編集するローカルリポジトリを CONTENT_DIR に指定する");
-  if (!isSlug(slug) || !title?.trim()) throw new Error('使用方法: npm run content:new -- slug "記事タイトル"');
+  if (!process.env.CONTENT_DIR) {
+    throw new Error("記事を編集するローカルリポジトリを CONTENT_DIR に指定する");
+  }
+  if (!isSlug(slug) || !title?.trim()) {
+    throw new Error('使用方法: npm run content:new -- slug "記事タイトル"');
+  }
   const directory = resolve(process.env.CONTENT_DIR, "posts", slug);
   await mkdir(join(directory, "assets"), { recursive: true });
   await writeFile(

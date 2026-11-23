@@ -52,24 +52,34 @@ async function exists(path: string): Promise<boolean> {
     await lstat(path);
     return true;
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") return false;
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return false;
+    }
     throw error;
   }
 }
 
 async function assertDirectory(path: string): Promise<void> {
   const stat = await lstat(path);
-  if (!stat.isDirectory() || stat.isSymbolicLink()) throw new Error(`通常のディレクトリが必要: ${path}`);
+  if (!stat.isDirectory() || stat.isSymbolicLink()) {
+    throw new Error(`通常のディレクトリが必要: ${path}`);
+  }
 }
 
 async function readAssets(directory: string, base = directory): Promise<Bundle["assets"]> {
-  if (!(await exists(directory))) return [];
+  if (!(await exists(directory))) {
+    return [];
+  }
   await assertDirectory(directory);
   const files: Bundle["assets"] = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const path = join(directory, entry.name);
-    if (/^[._]/.test(entry.name)) throw new Error(`Lume が除外するアセット名は使用できない: ${path}`);
-    if (entry.isSymbolicLink()) throw new Error(`アセットのシンボリックリンクは使用できない: ${path}`);
+    if (/^[._]/.test(entry.name)) {
+      throw new Error(`Lume が除外するアセット名は使用できない: ${path}`);
+    }
+    if (entry.isSymbolicLink()) {
+      throw new Error(`アセットのシンボリックリンクは使用できない: ${path}`);
+    }
     if (entry.isDirectory()) {
       files.push(...(await readAssets(path, base)));
     } else if (entry.isFile() && assetExtensions.includes(extname(entry.name).toLowerCase())) {
@@ -84,7 +94,9 @@ async function readAssets(directory: string, base = directory): Promise<Bundle["
 function validateAssetReferences(body: string, bundle: Bundle): void {
   const available = new Set(bundle.assets.map((asset) => `assets/${asset.path.split(sep).join("/")}`));
   const check = (reference: string) => {
-    if (!reference || /^(?:[a-z][a-z\d+.-]*:|\/\/|\/|#)/i.test(reference)) return;
+    if (!reference || /^(?:[a-z][a-z\d+.-]*:|\/\/|\/|#)/i.test(reference)) {
+      return;
+    }
     const base = new URL(`https://content.invalid/posts/${bundle.slug}/`);
     const url = new URL(reference, base);
     const prefix = base.pathname;
@@ -95,14 +107,20 @@ function validateAssetReferences(body: string, bundle: Bundle): void {
   };
   for (const token of markdown.parse(body, {})) {
     for (const child of token.children ?? []) {
-      if (child.type === "image") check(String(child.attrGet("src") ?? ""));
+      if (child.type === "image") {
+        check(String(child.attrGet("src") ?? ""));
+      }
       if (child.type === "link_open") {
         const href = String(child.attrGet("href") ?? "");
-        if (/^(?:\.\/)?assets\//.test(href)) check(href);
+        if (/^(?:\.\/)?assets\//.test(href)) {
+          check(href);
+        }
       }
     }
   }
-  for (const match of body.matchAll(/<(?:img|source)\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/gi)) check(match[1]);
+  for (const match of body.matchAll(/<(?:img|source)\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/gi)) {
+    check(match[1]);
+  }
 }
 
 async function readBundles(source: string, includeDrafts: boolean): Promise<Bundle[]> {
@@ -122,25 +140,40 @@ async function readBundles(source: string, includeDrafts: boolean): Promise<Bund
     }
     const text = await readFile(join(directory, "index.md"), "utf8");
     const frontMatter = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(text);
-    if (!frontMatter) throw new Error(`${entry.name}: front matter が必要`);
+    if (!frontMatter) {
+      throw new Error(`${entry.name}: front matter が必要`);
+    }
     const data: unknown = parse(frontMatter[1]);
-    if (!data || typeof data !== "object" || Array.isArray(data)) throw new Error(`${entry.name}: メタデータが不正`);
+    if (!data || typeof data !== "object" || Array.isArray(data)) {
+      throw new Error(`${entry.name}: メタデータが不正`);
+    }
     const meta = data as Record<string, unknown>;
-    if (typeof meta.title !== "string" || !meta.title.trim()) throw new Error(`${entry.name}: title が必要`);
-    if (!isPublicationDate(meta.date)) throw new Error(`${entry.name}: date はタイムゾーン付きの有効な公開日時が必要`);
+    if (typeof meta.title !== "string" || !meta.title.trim()) {
+      throw new Error(`${entry.name}: title が必要`);
+    }
+    if (!isPublicationDate(meta.date)) {
+      throw new Error(`${entry.name}: date はタイムゾーン付きの有効な公開日時が必要`);
+    }
     if (
       meta.tags !== undefined &&
       (!Array.isArray(meta.tags) || meta.tags.some((tag) => typeof tag !== "string" || !tag.trim()))
     ) {
       throw new Error(`${entry.name}: tags は文字列の配列が必要`);
     }
-    if (meta.draft !== undefined && typeof meta.draft !== "boolean")
+    if (meta.draft !== undefined && typeof meta.draft !== "boolean") {
       throw new Error(`${entry.name}: draft は真偽値が必要`);
+    }
     const url = `/posts/${entry.name}/`;
-    if (meta.url !== undefined && meta.url !== url) throw new Error(`${entry.name}: url は ${url} に合わせる`);
-    if (urls.has(url.toLowerCase())) throw new Error(`記事 URL が重複: ${url}`);
+    if (meta.url !== undefined && meta.url !== url) {
+      throw new Error(`${entry.name}: url は ${url} に合わせる`);
+    }
+    if (urls.has(url.toLowerCase())) {
+      throw new Error(`記事 URL が重複: ${url}`);
+    }
     urls.add(url.toLowerCase());
-    if (meta.draft === true && !includeDrafts) continue;
+    if (meta.draft === true && !includeDrafts) {
+      continue;
+    }
     const body = text.slice(frontMatter[0].length);
     const bundle: Bundle = {
       slug: entry.name,
@@ -171,17 +204,25 @@ function git(args: string[], cwd: string, env: NodeJS.ProcessEnv): string {
 }
 
 async function checkout(repository: string, ref: string, directory: string, env: NodeJS.ProcessEnv): Promise<string> {
-  if (ref.startsWith("-")) throw new Error("CONTENT_REF が不正");
+  if (ref.startsWith("-")) {
+    throw new Error("CONTENT_REF が不正");
+  }
   if (!isAbsolute(repository)) {
     const url = new URL(repository);
-    if (url.username || url.password) throw new Error("認証情報はリポジトリ URL に含めない");
-    if (!["https:", "ssh:", "file:"].includes(url.protocol))
+    if (url.username || url.password) {
+      throw new Error("認証情報はリポジトリ URL に含めない");
+    }
+    if (!["https:", "ssh:", "file:"].includes(url.protocol)) {
       throw new Error("Git の接続先は HTTPS / SSH / file URL を指定する");
+    }
   }
   if (env.CONTENT_GIT_TOKEN) {
-    if (!repository.startsWith("https://")) throw new Error("トークンによる Git 取得には HTTPS URL を指定する");
-    if (!env.CONTENT_GIT_USERNAME)
+    if (!repository.startsWith("https://")) {
+      throw new Error("トークンによる Git 取得には HTTPS URL を指定する");
+    }
+    if (!env.CONTENT_GIT_USERNAME) {
       throw new Error("Git ホストのトークン認証用ユーザー名を CONTENT_GIT_USERNAME に指定する");
+    }
     env = { ...env, GIT_ASKPASS: fileURLToPath(new URL("../scripts/git-askpass.mjs", import.meta.url)) };
   }
   git(["init", "--quiet"], directory, env);
@@ -229,8 +270,12 @@ async function stageBundles(
         await copyFile(asset.source, destination);
       }
     }
-    for (const slug of managed) await rm(join(posts, slug), { recursive: true, force: true });
-    for (const bundle of bundles) await rename(join(staging, bundle.slug), join(posts, bundle.slug));
+    for (const slug of managed) {
+      await rm(join(posts, slug), { recursive: true, force: true });
+    }
+    for (const bundle of bundles) {
+      await rename(join(staging, bundle.slug), join(posts, bundle.slug));
+    }
     await writeFile(
       `${manifest}.tmp`,
       JSON.stringify({ slugs: bundles.map((bundle) => bundle.slug), commit, siteCommit }, null, 2) + "\n",
@@ -247,8 +292,9 @@ export async function syncContent(root: string, env: NodeJS.ProcessEnv = process
     spawnSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).stdout?.trim() ||
     null;
   const includeDrafts = env.CONTENT_INCLUDE_DRAFTS === "true";
-  if (env.VERCEL && (includeDrafts || env.LUME_DRAFTS === "true"))
+  if (env.VERCEL && (includeDrafts || env.LUME_DRAFTS === "true")) {
     throw new Error("Vercel の公開物には下書きを含めない。確認にはローカル開発環境を使うこと");
+  }
   if (!env.CONTENT_DIR && !env.CONTENT_REPOSITORY) {
     if (env.VERCEL && env.MICROCMS_ENABLE !== "true") {
       throw new Error("Vercel では記事リポジトリか microCMS の設定が必要");
@@ -261,7 +307,9 @@ export async function syncContent(root: string, env: NodeJS.ProcessEnv = process
   let commit: string | null = null;
   try {
     if (!source) {
-      if (!env.CONTENT_REF) throw new Error("CONTENT_REF に記事の取得対象ブランチ・タグ・コミットを指定する");
+      if (!env.CONTENT_REF) {
+        throw new Error("CONTENT_REF に記事の取得対象ブランチ・タグ・コミットを指定する");
+      }
       checkoutDirectory = await mkdtemp(join(root, "_content", "checkout-"));
       source = checkoutDirectory;
       commit = await checkout(env.CONTENT_REPOSITORY!, env.CONTENT_REF, source, env);
@@ -275,12 +323,16 @@ export async function syncContent(root: string, env: NodeJS.ProcessEnv = process
       slugs: bundles.map((bundle) => bundle.slug),
     };
   } finally {
-    if (checkoutDirectory) await rm(checkoutDirectory, { recursive: true, force: true });
+    if (checkoutDirectory) {
+      await rm(checkoutDirectory, { recursive: true, force: true });
+    }
   }
 }
 
 export function printSyncResult(result: SyncResult): void {
-  if (result.siteCommit) console.log(`サイト: commit ${result.siteCommit}`);
+  if (result.siteCommit) {
+    console.log(`サイト: commit ${result.siteCommit}`);
+  }
   if (result.source === "existing") {
     console.log("記事: ローカル記事と有効な microCMS を使用");
   } else {

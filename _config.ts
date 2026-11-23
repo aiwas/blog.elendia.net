@@ -70,7 +70,9 @@ site.addEventListener("beforeSave", () => {
   const paths = new Set<string>();
   for (const file of [...site.pages, ...site.files]) {
     const path = file.outputPath.toLowerCase();
-    if (paths.has(path)) log.error(`公開先のパスが重複: ${path}`);
+    if (paths.has(path)) {
+      log.error(`公開先のパスが重複: ${path}`);
+    }
     paths.add(path);
   }
   return !log.hasErrors;

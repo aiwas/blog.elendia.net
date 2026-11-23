@@ -7,7 +7,9 @@ try {
   printSyncResult(await syncContent(process.cwd()));
   const args = process.argv.slice(2).map((arg) => (arg === "--serve" ? "-s" : arg));
   const env = { ...process.env };
-  if (env.CONTENT_INCLUDE_DRAFTS === "true") env.LUME_DRAFTS = "true";
+  if (env.CONTENT_INCLUDE_DRAFTS === "true") {
+    env.LUME_DRAFTS = "true";
+  }
   let command: string[];
   if (args.includes("-s")) {
     const packageDirectory = new URL("../../", import.meta.resolve("@lumeland/lume"));
@@ -24,7 +26,9 @@ try {
         try {
           process.kill(-child.pid, signal);
         } catch (error) {
-          if ((error as NodeJS.ErrnoException).code !== "ESRCH") throw error;
+          if ((error as NodeJS.ErrnoException).code !== "ESRCH") {
+            throw error;
+          }
         }
       } else {
         child.kill(signal);
