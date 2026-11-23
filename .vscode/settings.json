@@ -3,8 +3,9 @@
   "emmet.includeLanguages": {
     "html": "vento"
   },
-  "deno.enable": true,
-  "deno.lint": true,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "denoland.vscode-deno"
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "[vento]": {
+    "editor.formatOnSave": false
+  }
 }

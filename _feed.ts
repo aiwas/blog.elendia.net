@@ -1,13 +1,13 @@
-import type { Options } from "lume/plugins/feed.ts";
+import type { Options } from "@lumeland/plugin-feed";
 
-export default <Options> {
+export default {
   output: ["/posts.rss", "/posts.json"],
   query: "type=post",
   sort: "date=desc",
   limit: 10,
   info: {
-    title: "=site.title",
-    description: "=site.description",
+    title: "=metas.site",
+    description: "=metas.description",
     published: new Date(),
     lang: "ja",
     generator: true,
@@ -18,4 +18,4 @@ export default <Options> {
     content: "=children",
     lang: "=lang",
   },
-};
+} satisfies Options;

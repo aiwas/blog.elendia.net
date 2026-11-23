@@ -13,9 +13,11 @@ export default ({ title, results, pagination }: Lume.Data) => {
           <a href="/">Back</a>
         </div>
         <div className="nav-center">
-          {(pagination?.previous !== null) ? <a href={pagination?.previous}>Prev</a> : <span></span>}
-          <span className="text">{pagination?.page} of {pagination?.totalPages}</span>
-          {(pagination?.next !== null) ? <a href={pagination?.next}>Next</a> : <span></span>}
+          {pagination?.previous !== null ? <a href={pagination?.previous}>Prev</a> : <span></span>}
+          <span className="text">
+            {pagination?.page} of {pagination?.totalPages}
+          </span>
+          {pagination?.next !== null ? <a href={pagination?.next}>Next</a> : <span></span>}
         </div>
         <div className="nav-right"></div>
       </nav>

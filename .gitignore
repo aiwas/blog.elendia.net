@@ -3,6 +3,10 @@ src/pages/*
 src/posts/*
 !src/posts/_data.json
 _site/
+node_modules/
+_cache/
+_content/
 
 .env*
+!.env.example
 .vercel

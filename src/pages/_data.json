@@ -1,4 +1,4 @@
 {
-  "layout": "layouts/page.tsx",
+  "layout": "layouts/page.vto",
   "type": "page"
 }

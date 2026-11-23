@@ -1,4 +1,5 @@
-import type Site from "lume/core/site.ts";
+import type Site from "@lumeland/core/site.ts";
+import type { Environment } from "ventojs/core/environment.js";
 
 type AddHelperParameters = Parameters<typeof Site.prototype.helper>;
 
@@ -28,7 +29,14 @@ const youtubeCustomTag: AddHelperParameters = [
   { type: "tag" },
 ];
 
-export default [
-  mastodonCustomTag,
-  youtubeCustomTag,
-] as AddHelperParameters[];
+export default function helpers(site: Site): void {
+  for (const helper of [mastodonCustomTag, youtubeCustomTag]) site.helper(...helper);
+  site.hooks.addVentoPlugin((environment: Environment) => {
+    environment.tags.push((env, [, code], output, tokens) => {
+      const match = /^(toot|youtube)\s+(.+)$/.exec(code);
+      if (!match) return;
+      const value = env.compileFilters(tokens, match[2]);
+      return `${output} += __env.filters.${match[1]}(${value});`;
+    });
+  });
+}

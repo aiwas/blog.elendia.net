@@ -1,0 +1,8 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": false,
+  "ignorePatterns": ["node_modules/", "_site/", "_cache/", "_content/", "src/posts/**/*.md", "**/*.vto", "deno.lock"]
+}

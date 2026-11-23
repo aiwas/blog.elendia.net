@@ -1,4 +1,4 @@
-import type { Data } from "lume/core/file.ts";
+import type { Data } from "@lumeland/core/types.ts";
 import DateTag from "./DateTag.tsx";
 
 type Props = {
