@@ -1,17 +1,15 @@
-import type { Options } from "lume/plugins/markdown.ts";
-import anchor from "https://jspm.dev/markdown-it-anchor";
-import abbr from "https://jspm.dev/markdown-it-abbr";
-import subscript from "https://jspm.dev/markdown-it-sub";
-import superscript from "https://jspm.dev/markdown-it-sup";
-import footnote from "https://jspm.dev/markdown-it-footnote";
-import tableOfContents from "https://jspm.dev/markdown-it-table-of-contents";
-import container from "https://jspm.dev/markdown-it-container";
-import namedCodeBlocks from "https://jspm.dev/markdown-it-named-code-blocks";
-import blockEmbed from "https://jspm.dev/markdown-it-block-embed";
-// import linkPreview from "https://jspm.dev/markdown-it-link-preview";
-// import linkPreview from "npm:markdown-it-link-preview";
+import type { Options } from "@lumeland/plugin-markdown";
+import anchor from "markdown-it-anchor";
+import abbr from "markdown-it-abbr";
+import subscript from "markdown-it-sub";
+import superscript from "markdown-it-sup";
+import footnote from "markdown-it-footnote";
+import tableOfContents from "markdown-it-table-of-contents";
+import container from "markdown-it-container";
+import namedCodeBlocks from "markdown-it-named-code-blocks";
+import blockEmbed from "markdown-it-block-embed";
 
-export default <Options> {
+export default {
   plugins: [
     anchor,
     abbr,
@@ -22,10 +20,9 @@ export default <Options> {
     [container, "warning"],
     [namedCodeBlocks],
     [blockEmbed],
-    // linkPreview,
   ],
   options: {
     html: true,
   },
-  keepDefaultPlugins: true,
-};
+  useDefaultPlugins: true,
+} satisfies Options;

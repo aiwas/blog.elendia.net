@@ -1,4 +1,4 @@
-import { createClient, type MicroCMSContentId, type MicroCMSDate } from "microcms";
+import { createClient, type MicroCMSContentId, type MicroCMSDate } from "microcms-js-sdk";
 
 interface BlogArticle {
   title: string;
@@ -26,8 +26,8 @@ export const renderOrder = -1;
  */
 export default async function* () {
   const microcmsClient = createClient({
-    serviceDomain: Deno.env.get("MICROCMS_SERVICE_DOMAIN")!,
-    apiKey: Deno.env.get("MICROCMS_API_KEY")!,
+    serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN!,
+    apiKey: process.env.MICROCMS_API_KEY!,
     customFetch: fetch,
   });
   const data = await microcmsClient.getAllContents<Blog>({
@@ -41,7 +41,7 @@ export default async function* () {
       type: "post",
       url: `/posts/${content.slug}/`,
       title: content.title,
-      tags: content.tags?.map((x) => x.name_ja),
+      tags: content.tags?.map((x) => x.name_ja) ?? [],
       // 先にカスタムフィルターを処理する
       templateEngine: ["vto", "md"],
       content: content.body,

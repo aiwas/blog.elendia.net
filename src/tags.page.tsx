@@ -16,7 +16,9 @@ export default ({ search }: Lume.Data) => {
         <ul className="fe-tags">
           {tagList.map((tag) => (
             <li key={tag}>
-              <a href={`./${tag}/`}>{tag} ({search.pages(`'${tag}'`).length})</a>
+              <a href={`./${tag}/`}>
+                {tag} ({search.pages(`'${tag}'`).length})
+              </a>
             </li>
           ))}
         </ul>
