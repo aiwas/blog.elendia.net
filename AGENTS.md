@@ -11,7 +11,7 @@
 - 記事は別の非公開 Git リポジトリからビルド時に取得する。接続先は未定。
 - microCMS は記事の Git 移行が終わるまで併用する。
 - 配信先は既存の [Vercel プロジェクト `elendia-network/blog-elendia-net`](https://vercel.com/elendia-network/blog-elendia-net)。
-  設定変更はユーザーがダッシュボードで行う。v4 のデプロイ確認は未実施。
+  設定変更はユーザーがダッシュボードで行う。v4 の Preview ビルドと HTTP 配信は確認済み。本番反映は未実施。
 - 依存関係は `package.json` と `package-lock.json` で管理し、インストールは `npm ci`。
 - Deno の実行環境・開発ツールには依存しない。
 
