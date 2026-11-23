@@ -2,6 +2,7 @@ import { spawnSync } from "node:child_process";
 import { copyFile, lstat, mkdir, mkdtemp, readFile, readdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { stringToDocument } from "@lumeland/core/utils/dom.ts";
 import MarkdownIt from "markdown-it";
 import { parse, stringify } from "yaml";
 
@@ -105,8 +106,15 @@ function validateAssetReferences(body: string, bundle: Bundle): void {
       throw new Error(`${bundle.slug}: 参照先のアセットが存在しない: ${reference}`);
     }
   };
+  const html: string[] = [];
   for (const token of markdown.parse(body, {})) {
+    if (token.type === "html_block") {
+      html.push(token.content);
+    }
     for (const child of token.children ?? []) {
+      if (child.type === "html_inline") {
+        html.push(child.content);
+      }
       if (child.type === "image") {
         check(String(child.attrGet("src") ?? ""));
       }
@@ -118,8 +126,11 @@ function validateAssetReferences(body: string, bundle: Bundle): void {
       }
     }
   }
-  for (const match of body.matchAll(/<(?:img|source)\b[^>]*\bsrc\s*=\s*["']([^"']+)["']/gi)) {
-    check(match[1]);
+  if (html.length > 0) {
+    const document = stringToDocument(html.join("\n"));
+    for (const element of document.querySelectorAll("img[src], source[src]")) {
+      check(element.getAttribute("src") ?? "");
+    }
   }
 }
 

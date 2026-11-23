@@ -63,6 +63,57 @@ test("日時・画像・URL の検証に失敗した場合は配置済みの記�
   assert.equal(await readFile(path, "utf8"), previous);
 });
 
+test("HTML のコード例やコメントをアセット参照と誤認しない", async (t) => {
+  const root = await temporaryDirectory(t);
+  const content = await temporaryDirectory(t);
+  const body = [
+    "```html",
+    '<img src="fenced-example.png">',
+    '<source src="fenced-example.webp">',
+    "```",
+    "",
+    'Inline `<img src="inline-example.png">` example.',
+    "",
+    '    <img src="indented-example.png">',
+    "",
+    '<!-- <img src="comment-example.png"> -->',
+    "",
+    '<div><!-- <source src="block-comment.webp"> --></div>',
+    "",
+    "<script>const example = '<img src=\"script-example.png\">';</script>",
+    "",
+    "<span data-example='<img src=\"attribute-example.png\">'>Example</span>",
+    "",
+    '![図](./assets/figure.svg) and <img src="./assets/figure.svg">',
+    "",
+    '<picture><source src="./assets/figure.svg"><img src="./assets/figure.svg"></picture>',
+  ].join("\n");
+  await article(content, "examples", { body });
+  assert.deepEqual((await syncContent(root, { CONTENT_DIR: content })).slugs, ["examples"]);
+  assert.ok((await readFile(join(root, "src/posts/examples/index.md"), "utf8")).endsWith(body + "\n"));
+  await access(join(root, "src/posts/examples/assets/figure.svg"));
+});
+
+test("実際の HTML 画像参照の欠落は検出し、配置済みの記事を維持する", async (t) => {
+  const root = await temporaryDirectory(t);
+  const content = await temporaryDirectory(t);
+  await article(content, "images");
+  await syncContent(root, { CONTENT_DIR: content });
+  const path = join(root, "src/posts/images/index.md");
+  const previous = await readFile(path, "utf8");
+  for (const body of [
+    'Inline <img src="./assets/missing.svg"> image.',
+    '<div>\n<img src="./assets/missing.svg">\n</div>',
+    '<picture><source src="./assets/missing.svg"></picture>',
+    "<img src=./assets/missing.svg>",
+    '<!-- <img src="example.png"> -->\n\n<img src="./assets/missing.svg">',
+  ]) {
+    await article(content, "images", { body });
+    await assert.rejects(syncContent(root, { CONTENT_DIR: content }), /アセットが存在しない/);
+    assert.equal(await readFile(path, "utf8"), previous);
+  }
+});
+
 test("既存記事との衝突とアセットのシンボリックリンクを拒否する", async (t) => {
   const root = await temporaryDirectory(t);
   const content = await temporaryDirectory(t);
