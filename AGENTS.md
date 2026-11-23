@@ -82,6 +82,8 @@
 - ページは `.page.tsx`。レイアウトと直接 import する部品は `.tsx` のまま使う。
 - JSX は `@lumeland/ssx`、型は `Lume.Data` や `@lumeland/core/types.ts` を使う。
 - Lume 管理の Vento コンポーネントは `comp` から呼ぶ。非同期の描画に注意する。
+- 既存記事の `components.gist(...)` などは `_helper.ts` で `comp` 呼び出しへ変換し、描画を待つ。
+  microCMS と Git の記事をそのまま移行するため、この互換処理を保つ。
 - Sass の入口は `site.add("style.scss")` で明示し、コンポーネント CSS は `/components.css` に出力。
 - 日付の表示は `Asia/Tokyo`。公開日時と Git の取得日時を混同しない。
 - 書式は Oxfmt、静的解析は Oxlint。2 スペース、ダブルクォート、セミコロン付き、行幅 120。

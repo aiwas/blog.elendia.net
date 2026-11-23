@@ -61,6 +61,8 @@ public class Example {}
 
 {{ comp.toot({ url: "https://example.invalid/@user/123" }) }}
 
+{{ components["gist"]({ url: "https://gist.github.com/example/components.git-legacy" }) |> safe }}
+
 [外部](https://example.com/)
 `,
   });
@@ -84,6 +86,7 @@ public class Example {}
   await access(join(root, "_site/pages/about/index.html"));
   await access(join(root, "_site/style.css"));
   assert.match(await readFile(join(root, "_site/components.css"), "utf8"), /mastodon-embed/);
+  assert.match(await readFile(join(root, "_site/components.css"), "utf8"), /\.gist \.gist-file/);
   await access(join(root, "_site/favicon.svg"));
   const post = await readFile(join(root, "_site/posts/post-11/index.html"), "utf8");
   for (const pattern of [
@@ -97,6 +100,7 @@ public class Example {}
     /example.cs/,
     /token keyword/,
     /youtube.com\/embed\/video-id/,
+    /<script src="https:\/\/gist.github.com\/example\/components.git-legacy.js"><\/script>/,
     /target="_blank"/,
   ])
     assert.match(post, pattern);
@@ -135,6 +139,10 @@ test("microCMS を併用でき、Git 記事との URL 重複と取得失敗は�
   const cms = await readFile(join(root, "_site/posts/cms-entry/index.html"), "utf8");
   assert.match(cms, /CMS body/);
   assert.match(cms, /youtube.com\/embed\/cms-video/);
+  assert.match(cms, /<details>/);
+  assert.match(cms, /<script src="https:\/\/gist.github.com\/aiwas\/48c9e6f8158cd7466c7abf97ff364edd.js"><\/script>/);
+  assert.doesNotMatch(cms, /\[object Promise\]/);
+  assert.match(await readFile(join(root, "_site/components.css"), "utf8"), /\.gist \.gist-file/);
   await access(join(root, "_site/posts/git-entry/index.html"));
   await article(content, "cms-entry");
   const duplicate = runSite(root, content, env);

@@ -7,7 +7,14 @@ globalThis.fetch = async (input) => {
       {
         id: "cms-id",
         title: "CMS article",
-        body: '## CMS body\n\n{{ youtube "cms-video" }}',
+        body: `## CMS body
+
+{{ youtube "cms-video" }}
+
+<details>
+<summary>【参考】実際に使っている設定</summary>
+{{ components.gist({ url: "https://gist.github.com/aiwas/48c9e6f8158cd7466c7abf97ff364edd" }) }}
+</details>`,
         slug: "cms-entry",
         isDraft: false,
         publishedAt: "2026-11-20T01:30:00+09:00",

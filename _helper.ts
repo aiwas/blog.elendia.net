@@ -33,6 +33,13 @@ export default function helpers(site: Site): void {
   for (const helper of [mastodonCustomTag, youtubeCustomTag]) site.helper(...helper);
   site.hooks.addVentoPlugin((environment: Environment) => {
     environment.tags.push((env, [, code], output, tokens) => {
+      // 既存記事の components 呼び出しを v4 の comp に変換し、非同期の描画を待つ。
+      const component = /^(?:await\s+)?components(?=\.|\[)/;
+      if (component.test(code)) {
+        const value = `await ${code.replace(component, "comp")}`;
+        const rendered = env.compileFilters(tokens, value, env.options.autoescape);
+        return `${output} += ${rendered};`;
+      }
       const match = /^(toot|youtube)\s+(.+)$/.exec(code);
       if (!match) return;
       const value = env.compileFilters(tokens, match[2]);
